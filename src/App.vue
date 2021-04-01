@@ -108,9 +108,7 @@ h2{
   min-height: 100vh;
   margin-top: 80px;
 }
-.content-router{
-  /*height: 100vh;*/
-}
+
 .menu-left{
   position: absolute;
   left: 0;
