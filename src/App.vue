@@ -16,11 +16,14 @@
           </div>
         </div> 
     </header>
-    <div class="content">
+    <div class="content-app">
       <div class="content-router" :class="{'auth' : isAuth}">
         <router-view/>
       </div>
     </div>
+    <footer>
+      © Copyright <span>Gift Selector</span>
+    </footer>
   </div>
 </template>
 
@@ -74,6 +77,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: hsl(210, 29%, 24%);
+  position: relative;
 }
 h2{
   margin-top: 0;
@@ -99,12 +103,13 @@ h2{
 .item-menu:hover{
   background: gray;
 }
-.content{
+.content-app{
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
+  margin-top: 80px;
 }
 .content-router{
-  height: 100%;
+  /*height: 100vh;*/
 }
 .menu-left{
   position: absolute;
@@ -122,6 +127,10 @@ header{
   background: #69C2FA;
   height: 80px;
   padding: 0 10px;
+  position: fixed;
+  top:0;
+  z-index: 900;
+  width: 100%;
 }
 header a{
   cursor: pointer;
@@ -152,6 +161,19 @@ header a:hover{
   align-items: center;
   height: 100%;
   
+}
+
+footer{
+  background: #549bc8;
+  color: hsl(210, 29%, 24%);
+  padding: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 500;
+}
+
+footer span{
+  font-family:  'Pacifico', cursive;
+  font-weight: 600;
 }
 
 </style>

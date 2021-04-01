@@ -114,7 +114,7 @@
 </script>
 <style scoped>
     .create-user-page{
-        height: 100vh;
+        min-height: 100vh;
         display: flex;   
         font-family: 'Yatra One', cursive;
         background: #fdfdfd;
@@ -139,8 +139,8 @@
         justify-content: center;
         align-items: center;
     }
-    @media screen and (max-width: 480px){
-        .create-user-page .image img{
+    @media screen and (max-width: 769px){
+        .create-user-page .image{
             display: none;
         }
         .create-user-page>div{

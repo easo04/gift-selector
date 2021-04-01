@@ -305,7 +305,7 @@ export default {
         color: hsl(210, 29%, 24%);
         background: #fdfdfd;
     }
-    @media screen and (max-width: 480px){
+    @media screen and (max-width:769px){
         .details-groupe{
             padding: 20px;
         }

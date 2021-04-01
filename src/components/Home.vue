@@ -140,7 +140,7 @@
     font-family: 'Yatra One', cursive;
     background: #fdfdfd;
 }
-@media screen and (max-width: 480px){
+@media screen and (max-width: 769px){
     .home-page{
         padding: 20px;
     }

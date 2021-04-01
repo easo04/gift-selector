@@ -62,7 +62,7 @@
 </script>
 <style scoped>
     .login-page{
-        height: 100%;
+        min-height: 100vh;
         display: flex;
         color: hsl(210, 29%, 24%);
         font-family: 'Yatra One', cursive;
@@ -89,8 +89,8 @@
         width: 70%;
         height: auto;
     }
-    @media screen and (max-width: 480px){
-        .login-page .image img{
+    @media screen and (max-width: 769px){
+        .login-page .image{
             display: none;
         }
         .login-page >div{
@@ -98,7 +98,6 @@
         }
     }
     .login-page .content{
-        padding: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
