@@ -1,0 +1,154 @@
+<template>
+    <div class="login-page">
+        <div class="image">
+            <img src="../assets/gift.svg">
+        </div>
+        <div class="content">
+            <div>
+                <h1>Gift Selector</h1>
+                <h6>Bienvenue à Gift Selector!</h6>
+                <div class="error" v-if="error">
+                    * {{error}}
+                </div> 
+                <div class="form-login">
+                    <form @submit.prevent="login()">
+                        <input type="text" placeholder="Email" v-model="user" class="input-text">
+                        <input type="password" placeholder="Mot de passe" v-model="password" class="input-text">
+                        <input type="submit" value="Se connecter" class="btn-login">
+                    </form>
+                    <a class="btn-create" @click="createUser()">Créer votre compte</a>
+                </div> 
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    import firebase from 'firebase'
+    export default {
+        data() {
+            return {
+                user:'',
+                password:'',
+                error:undefined
+            }
+        },
+        methods: {
+            login(){
+                firebase.auth().signInWithEmailAndPassword(this.user, this.password).then(user =>{
+                    this.$router.replace('home')
+                }, error =>{
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            this.error = 'L\'email est invalide'
+                            break;
+                        case 'auth/wrong-password':
+                            this.error = 'Mot de passe invalide'
+                            break;
+                        case 'auth/user-not-found':
+                            this.error = 'L\'usager n\'existe pas'
+                            break;
+                        default:
+                            this.error = 'Erreur'
+                            break;
+                    }
+                    console.log(error)
+                });
+            },
+            createUser(){
+                this.$router.replace('create-user')
+            }
+        }
+    }
+</script>
+<style scoped>
+    .login-page{
+        height: 100%;
+        display: flex;
+        color: hsl(210, 29%, 24%);
+        font-family: 'Yatra One', cursive;
+        flex-wrap: wrap;
+    }
+    .login-page >div{
+        width: 50%;
+    }
+    .login-page h1{
+        font-weight: 600;
+        font-family: 'Pacifico', cursive; 
+        margin-bottom: 50px;
+    }
+    .login-page h6{
+        text-align: left;
+    }
+    .login-page .image{
+        background: #e1f3fe;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .login-page .image img{
+        width: 70%;
+        height: auto;
+    }
+    @media screen and (max-width: 480px){
+        .login-page .image img{
+            display: none;
+        }
+        .login-page >div{
+            width: 100%;
+        }
+    }
+    .login-page .content{
+        padding: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .form-login{
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    form > *{
+        display: block;
+    }
+    .btn-login{
+        font-family: 'Ubuntu', sans-serif;
+        float: right;
+        padding: 10px;
+        cursor: pointer;
+        background: #549bc8;
+        border:none;
+        border-radius: 5px;
+        color: hsl(210, 29%, 24%);
+        font-weight: 500;
+        margin-top: 20px;
+    }
+    .btn-login:hover{
+        background: #4a88af;
+    }
+    .input-text{
+        margin-bottom: 5px;
+        height: 40px;
+        width: 100%;
+        border-radius: 5px;
+        border:1px solid #a1a1a1;
+        margin-bottom: 10px;
+    }
+    .error{
+        margin-top: 10px;
+        color: #e04122;
+        font-weight: 500;
+        text-align: left;
+    }
+    .btn-create{
+        text-decoration: underline;
+        color: hsl(210, 29%, 24%);
+        cursor: pointer;
+        margin-top: 30px;
+        text-align: right;
+        font-weight: 500;
+        width: 100%;
+        font-family: 'Ubuntu', sans-serif;
+    }
+</style>
+            
