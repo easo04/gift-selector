@@ -65,7 +65,7 @@
                         email:this.user
                     }).then((res) => {
                         db.collection('users').doc(res.id).collection('groupes').add({
-                            nom:'BabyShower',
+                            nom:'BabyShower Tania',
                             idGroupe:'LN7rqsmULnoOAilRR1Cg',
                             isOnlySelect:true
                         }).then(()=>{
