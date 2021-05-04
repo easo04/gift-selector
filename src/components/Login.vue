@@ -17,6 +17,7 @@
                         <input type="submit" value="Se connecter" class="btn-login">
                     </form>
                     <a class="btn-create" @click="createUser()">Créer votre compte</a>
+                    <a class="btn-update-mdp" @click="mdpOublie()">Mot de passe oublié</a>
                 </div> 
             </div>
         </div>
@@ -56,6 +57,9 @@
             },
             createUser(){
                 this.$router.replace('create-user')
+            },
+            mdpOublie(){
+                this.$router.replace('password-update')
             }
         }
     }
@@ -144,6 +148,16 @@
         color: hsl(210, 29%, 24%);
         cursor: pointer;
         margin-top: 30px;
+        text-align: right;
+        font-weight: 500;
+        width: 100%;
+        font-family: 'Ubuntu', sans-serif;
+    }
+    .btn-update-mdp{
+        text-decoration: underline;
+        color: #549bc8;
+        cursor: pointer;
+        margin-top: 10px;
         text-align: right;
         font-weight: 500;
         width: 100%;

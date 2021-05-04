@@ -7,6 +7,7 @@ import CreateUser from '@/components/CreateUser'
 import DetailsGroupe from '@/components/DetailsGroupe'
 import DetailsGroupeSelectOnly from '@/components/DetailsGroupeSelectOnly'
 import MesCadeaux from '@/components/MesCadeaux'
+import MotPasseOublie from '@/components/MotPasseOublie'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -66,6 +67,11 @@ const router = new Router({
       path: '/create-user',
       name: 'createUser',
       component: CreateUser,
+    },
+    {
+      path: '/password-update',
+      name: 'MotPasseOublie',
+      component: MotPasseOublie,
     },
   ]
 })
