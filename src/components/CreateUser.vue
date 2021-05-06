@@ -62,7 +62,7 @@
                     db.collection('users').add({
                         nom:this.lastName,
                         prenom:this.firstName,
-                        email:this.user
+                        email:this.user.toLowerCase()
                     }).then((res) => {
                         db.collection('users').doc(res.id).collection('groupes').add({
                             nom:'BabyShower Tania',
@@ -72,7 +72,7 @@
                             db.collection('groupe').doc('LN7rqsmULnoOAilRR1Cg').collection('users').add({
                                 nom:this.lastName,
                                 prenom:this.firstName,
-                                email:this.user,
+                                email:this.user.toLowerCase(),
                                 isAdmin:false
                             }).then(() => this.$router.replace('home'))              
                         })
