@@ -10,18 +10,17 @@
         <div class="content-groupe" v-else>
             <div class="actions-groupe">
                 <div class="action" @click="showContentAction('cadeaux')" :class="{'action-selected' : actionSelect === 'cadeaux'}">
-                    Cadeaux
+                    Liste de cadeaux
                 </div> 
                 <div class="action" @click="showContentAction('a-donner')" :class="{'action-selected' : actionSelect === 'a-donner'}">
-                    À donner
+                    Mes choix
                 </div> 
             </div>
             <div v-if="showCadeauxGroupe" class="action-content content-cadeaux">
                 <div class="lstCadeaux">
-                    <h5>Liste de cadeaux</h5> 
                     <div class="actions" v-if="userActif.isAdmin">
-                        <button class="btn btn-action delete" data-toggle="modal" data-target="#modalDeleteCadeau">- Supprimer</button>
-                        <button class="btn btn-action add" data-toggle="modal" data-target="#modalAddCadeau">+ Ajouter</button>
+                        <button class="btn btn-action delete" data-toggle="modal" data-target="#modalDeleteCadeau"><i class="fas fa-trash"></i> Supprimer</button>
+                        <button class="btn btn-action add" data-toggle="modal" data-target="#modalAddCadeau"><i class="fas fa-plus"></i>Nouveau</button>
                     </div>      
                     <div class="itemsCadeaux">
                         <div class="item-cadeau" :class="{'select' : cadeau.isSelect}" v-for="(cadeau, index) in lstCadeaux" :key="index">
@@ -40,13 +39,12 @@
                 </div>
             </div>
             <div class="action-content" v-if="showDonner">
-                <h5>Ma liste de cadeaux à donner</h5>  
                 <div v-for="(cadeau, index) in lstCadeauxSelect" :key="index" class="item-cadeaux cadeaux-selected">
                     <div>
                         <h4>{{cadeau.nom}}</h4>
                         <a :href="cadeau.link" target="_blank" v-if="cadeau.link">Lien de l'article</a>
                     </div>
-                    <div class="delete-cadeau" @click="deleteCadeauxSelect(cadeau, index)"><i class="fa fa-trash-o"></i></div>
+                    <div class="delete-cadeau" @click="deleteCadeauxSelect(cadeau, index)"><i class="fa fa-trash"></i></div>
                 </div>
             </div> 
         </div>
@@ -55,7 +53,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Ajouter un cadeau</h4>
+                <h4 class="modal-title">Nouveau cadeau</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -89,7 +87,7 @@
                 <div class="modal-body">
                     <div class="item-cadeau-delete" v-for="(cadeau, index) in lstCadeaux" :key="index">
                         <div>{{cadeau.nom}}</div>
-                        <div class="delete"><i class="fa fa-trash-o" @click="deleteCadeau(cadeau, index)"  v-if="!cadeau.isSelect"></i></div>
+                        <div class="delete"><div v-if="cadeau.isSelect === false"><i class="fa fa-trash" @click="deleteCadeau(cadeau, index)"></i></div></div>
                     </div>
                 </div>
             </div>
@@ -299,11 +297,14 @@ export default {
 }
 </script>
 <style scoped>
+    h2{
+        font-family: 'Yatra One', cursive;
+    }
     .details-groupe{
         padding: 50px 200px;
-        font-family: 'Yatra One', cursive;
         color: hsl(210, 29%, 24%);
         background: #fdfdfd;
+        font-family: 'Ubuntu', sans-serif;
     }
     @media screen and (max-width:769px){
         .details-groupe{
@@ -311,7 +312,7 @@ export default {
         }
     }
     .item-cadeau{
-        border:1px solid #3780AD;
+        border:1px solid hsl(210, 29%, 24%);
         min-height: 100px;
         font-weight: 600;
         display : grid;
@@ -329,18 +330,17 @@ export default {
     }
     .actions .btn{
         background: transparent !important;
-        border:1px solid #3780AD !important;
-    }
-
-    .actions .btn.delete{
-        border:1px solid #e04122 !important;
+        border:2px solid hsl(210, 29%, 24%) !important;
+        border-radius: 5px !important;
+        
     }
 
     .actions .btn:not(:last-child){
         margin-left: 10px;
     }
     .actions .btn:hover{
-        background: #3780AD !important;
+        background: hsl(210, 29%, 24%) !important;
+        color:#e7edfc;
     }
     .item-cadeau.select{
         background: #6decbb;
@@ -442,7 +442,7 @@ export default {
         position: absolute;
         top: 10px;
         right: 10px;
-        color: #e04122;
+        color: hsl(210, 29%, 24%);
         cursor: pointer;
         line-height: normal;
     }
@@ -464,7 +464,7 @@ export default {
         display: grid;
         width: 100%;
         height: 60px;   
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr 1fr;
         font-family: 'Ubuntu', sans-serif;
         border-radius: 5px;
     }
@@ -474,9 +474,9 @@ export default {
         justify-content: center;
         align-items: center;
         background: #f5f5f5;
-        border:1px solid #3780AD;
+        border:1px solid hsl(210, 29%, 24%);
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 500;
     }
 
     .actions-groupe .action:first-child{
@@ -494,11 +494,12 @@ export default {
     }
 
     .select-only .actions-groupe{
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr 1fr;
     }
 
     .action-selected{
-        background: #3780AD !important;
+        background: hsl(210, 29%, 24%) !important;
+        color:#fdfdfd;
     }
 
     .btns{
@@ -536,11 +537,16 @@ export default {
     }
 
     .item-cadeau-delete{
-        height: 50px;
         display: flex;
         align-items: center;
         width: 100%;
+        padding: 25px 0px;
     }
+
+    .item-cadeau-delete:not(:last-child){
+        border-bottom: 1px solid #a1a1a1;
+    }
+
     .item-cadeau-delete>div:first-child{
         width: 80%;
         text-align: left;
@@ -548,7 +554,29 @@ export default {
     .item-cadeau-delete>div:last-child{
         width: 20%;
         text-align: right;
-        color:#e04122;
+    }
+
+    .item-cadeau-delete .delete i {
+        color:hsl(210, 29%, 24%);
         cursor: pointer;
+    }
+
+    .modal .close{
+        border:1px solid #8c8989;
+        background-color: #b3b3b3;
+        border-radius: 50%;
+        height: 20px;
+        width: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        margin-top: 0px;
+        margin-right: 0px;
+    }
+
+    #modalDeleteCadeau .modal-body{
+        height: 400px;
+        overflow-y: auto;
     }
 </style>

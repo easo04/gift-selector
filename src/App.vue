@@ -12,11 +12,12 @@
         </div>
         <div class="header-actions">
           <div v-if="isAuth">
-            <a @click="logout()">Se déconnecter</a>
+            <a @click="logout()"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
           </div>
         </div> 
     </header>
     <div class="content-app">
+      <menu-left :user="user"/>
       <div class="content-router" :class="{'auth' : isAuth}">
         <router-view/>
       </div>
@@ -29,7 +30,9 @@
 
 <script>
 import firebase from 'firebase'
+import MenuLeft from './components/MenuLeft.vue'
 export default {
+  components: { MenuLeft },
   name: 'App',
   data(){
     return{
@@ -109,18 +112,14 @@ h2{
   margin-top: 80px;
 }
 
-.menu-left{
-  position: absolute;
-  left: 0;
-  width: 80px;
-  font-size: 10px;
-  top: 0;
-  height: 100%;
-  border:1px solid #69C2FA;
+.content-router{
+  padding-left: 100px;
 }
+
 /*.auth{
   margin-left: 130px;
 }*/
+
 header{
   background: #69C2FA;
   height: 80px;

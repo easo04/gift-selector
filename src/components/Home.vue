@@ -4,20 +4,11 @@
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>Success!</strong> Le mot de passe a été modifié
         </div>
-        <h2>Bienvenue {{email}}</h2>
-        <div class="modifier-password">
+        <h3>Mes groupes</h3>
+        <mes-groupes :groupes="lstGroupes" :user="currentUser" />
+        <!--<div class="modifier-password">
             <button class="btn btn-action" data-toggle="modal" data-target="#modalPasswordChanged">Modifier mot de passe</button>
         </div> 
-        <div class="dashboard">
-            <div class="item-groupe" v-for="(groupe, index) in lstGroupes" :key="index" @click="goToDetails(groupe)">
-                <div>
-                    <span>{{groupe.nom}}</span><br>
-                    <span class="argent"><span v-if="groupe.maximum">Max {{groupe.maximum}}$</span>
-                    <span v-if="groupe.minimum"> Min {{groupe.minimum}}$</span></span>
-                </div>
-            </div>
-        </div>
-
         <div class="modal" id="modalPasswordChanged">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -44,13 +35,15 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 <script>
     import {db} from '@/main'
     import firebase from 'firebase'
+import MesGroupes from './MesGroupes.vue'
     export default {
+    components: { MesGroupes },
         data(){
             return{
                 email:'',
@@ -88,13 +81,6 @@
                         sessionStorage.setItem('lstGroupes', JSON.stringify(this.lstGroupes));
                     })
                 }).catch(error => console.error("Error get users: ", error));
-            },
-            goToDetails(groupe){
-                if(groupe.isOnlySelect){
-                    this.$router.push({name: 'detailsGroupeOnly', params:{'groupe' : groupe, 'user': this.currentUser.email}});
-                }else{
-                    this.$router.push({name: 'detailsGroupe', params:{'groupe' : groupe, 'user': this.currentUser.email}});
-                }
             },
             updatePassword(){
                 if(this.modelPassword.newPassword === this.modelPassword.confirmPassword){
@@ -150,32 +136,7 @@
     color: royalblue;
     cursor: pointer;
 }
-.dashboard{
-    display: flex;
-    flex-wrap: wrap;
-    widows: 100%;
-}
-.item-groupe{
-    border: 2px solid #3780AD;
-    background: #FAF750;
-    min-height: 200px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-.item-groupe:hover{
-    background: #c8c640;
-}
-.argent{
-    font-size: 14px;
-    color: seagreen;
-}
+
 .modifier-password{
     margin-top:20px;
     height: 60px;
@@ -201,5 +162,9 @@
 }
 .form-group{
     text-align: left;
+}
+h3{
+    text-align: left;
+    margin-bottom: 20px;
 }
 </style>
