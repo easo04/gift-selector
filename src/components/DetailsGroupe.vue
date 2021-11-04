@@ -1,8 +1,10 @@
 <template>
 <div class="details-groupe">
-    <h2>{{groupe.nom}}</h2>
-    <h5><span class="argent"><span v-if="groupe.maximum">Max {{groupe.maximum}}$</span> 
-                    <span v-if="groupe.minimum">Min {{groupe.minimum}}$</span></span></h5>
+    <h2>{{groupeCurrent.nom}}</h2>
+    <h5><span class="argent"><span v-if="groupeCurrent.maximum">Max {{groupeCurrent.maximum}}$</span> 
+                    <span v-if="groupeCurrent.minimum">Min {{groupeCurrent.minimum}}$</span></span></h5>
+                    
+    <div class="img-groupe"><img class="logo-header" src="../assets/groupe-type-default.svg"></div>
     
     <div>
         <div class="spinner-border" v-if="isLoading"></div>
@@ -21,17 +23,17 @@
             </div>
             <div v-if="showCadeauxGroupe" class="action-content content-cadeaux">
                 <div class="lstUsers">
-                    <h5>Liste usagers</h5>       
-                    <div class="itemsCadeaux">
+                    <h5>Liste d'usagers</h5>       
+                    <div class="itemsUsers">
                         <div class="item-user" v-for="(user, index) in lstUsers" :key="index" @click="selectUser(user)" :class="{'user-select' : user.email === userSelect.email}">
                             {{user.prenom}} {{user.nom}}
                         </div> 
                     </div>
                 </div>
                 <div class="lstCadeaux">
-                    <h5>Liste cadeaux</h5>
+                    <h5>Liste de cadeaux de l'usager</h5>
                     <div class="itemsCadeaux">
-                        <div class="item-cadeaux" v-for="(c, index) in lstCadeaux" :key="index" :class="{'cadeau-select' : c.isSelect}">
+                        <div class="item-cadeaux" v-for="(c, index) in lstCadeaux" :key="index" :class="{'cadeau-select' : c.isSelect}" c.isSelect>
                             <div class="nom-cadeau" v-if="c.isSelect">
                                 <a :href="c.url" target="_blank" v-if="c.url">{{c.nom}}</a>
                                 <span v-else>{{c.nom}}</span>
@@ -45,18 +47,18 @@
             </div>
             <div class="action-content" v-if="showMesCadeaux">
                 <div class="btns">
-                    <button class="btn btn-primary btn-action" data-toggle="modal" data-target="#modalAddCadeau">+</button>
+                    <button class="btn btn-action" data-toggle="modal" data-target="#modalAddCadeau"><i class="fas fa-plus"></i> Nouveau</button>
                 </div>
                 <div v-for="(cadeau, index) in lstMesCadeaux" :key="index" class="item-cadeaux" :class="{'cadeau-select' : cadeau.isSelect}">
                     {{cadeau.nom}}
-                    <div class="delete-cadeau" @click="deleteMesCadeaux(cadeau, index)" v-if="!cadeau.isSelect"><i class="fa fa-trash-o"></i></div>
+                    <div class="delete-cadeau" @click="deleteMesCadeaux(cadeau, index)" v-if="!cadeau.isSelect"><i class="fa fa-trash"></i></div>
                 </div>
             </div> 
             <div class="action-content" v-if="showDonner">
                 <div v-for="(cadeau, index) in lstCadeauxSelect" :key="index" class="item-cadeaux cadeaux-selected">
                     <span>{{cadeau.nom}}</span><br>
                     <span class="nom-user">{{cadeau.user}}</span>
-                    <div class="delete-cadeau" @click="deleteCadeauxSelect(cadeau, index)"><i class="fa fa-trash-o"></i></div>
+                    <div class="delete-cadeau" @click="deleteCadeauxSelect(cadeau, index)"><i class="fa fa-trash"></i></div>
                 </div>
             </div> 
         </div>
@@ -107,12 +109,13 @@ export default {
             cadeauAddModel:{
                 nom:undefined,
                 url:undefined
-            }
+            },
+            groupeCurrent: {}
         }
     },
     methods:{
         getUsers(){
-            db.collection('groupe').doc(this.groupe.idGroupe).collection('users').get().then(response =>{
+            db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').get().then(response =>{
                 const users = [];
                 response.forEach(doc => {
                     let data = doc.data();
@@ -122,15 +125,17 @@ export default {
                 this.lstUsers = users;
                 this.userSelect = this.lstUsers[0]
                 this.selectUser(this.userSelect);
-                this.isLoading = false
+                this.isLoading = false;
 
                 //select user connect
                 this.userActif = this.lstUsers.find(u => u.email === this.user);
+
+                sessionStorage.setItem('lstUsers', JSON.stringify(this.lstUsers));
             });
         },
         selectUser(user){        
-            this.userSelect = user
-            db.collection('groupe').doc(this.groupe.idGroupe).collection('users').doc(user.id).collection('cadeaux').get().then(response =>{
+            this.userSelect = user;
+            db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(user.id).collection('cadeaux').get().then(response =>{
                 const cadeaux = [];
                 response.forEach(doc => {
                     let data = doc.data();
@@ -141,8 +146,8 @@ export default {
             });
         },
         choisir(cadeau){
-            let cadeauDoc = db.collection('groupe').doc(this.groupe.idGroupe).collection('users').doc(this.userSelect.id).collection('cadeaux').doc(cadeau.id);
-            let userSelected = this.user;
+            let cadeauDoc = db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userSelect.id).collection('cadeaux').doc(cadeau.id);
+            let userSelected = this.userActif.email;
             
             return db.runTransaction(function(transaction) {
                 return transaction.get(cadeauDoc).then(function(sfDoc) {
@@ -188,7 +193,7 @@ export default {
         getMesCadeaux(){
             /*db.collection('users').where('email', '==', this.user).get().then(response =>{
             });*/
-            db.collection('groupe').doc(this.groupe.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').get().then(response =>{
+            db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').get().then(response =>{
                 const cadeaux = [];
                 response.forEach(doc => {
                     let data = doc.data();
@@ -200,7 +205,7 @@ export default {
             })
         },
         getCadeauxSelect(){
-            db.collection('groupe').doc(this.groupe.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux-select').get().then(response =>{
+            db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux-select').get().then(response =>{
                 const cadeaux = [];
                 response.forEach(doc => {
                     let data = doc.data();
@@ -214,7 +219,7 @@ export default {
         addCadeau(){
             if(this.cadeauAddModel.nom){
                 try{
-                    db.collection('groupe').doc(this.groupe.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add({
+                    db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add({
                         nom:this.cadeauAddModel.nom,
                         url:this.cadeauAddModel.url ? this.cadeauAddModel.url : '',
                         isSelect:false,
@@ -236,7 +241,7 @@ export default {
         },
         addCadeauSelect(cadeau){
             try{
-                db.collection('groupe').doc(this.groupe.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux-select').add({
+                db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux-select').add({
                     nom:cadeau.nom,
                     user:this.userSelect.prenom + ' ' + this.userSelect.nom,
                     idProprietario: this.userSelect.id,
@@ -252,7 +257,7 @@ export default {
         },
         deleteMesCadeaux(cadeau, index){
             try{
-                db.collection('groupe').doc(this.groupe.idGroupe)
+                db.collection('groupe').doc(this.groupeCurrent.idGroupe)
                 .collection('users').doc(this.userActif.id).collection('cadeaux').doc(cadeau.id).delete().then((response) =>{
                     this.lstMesCadeaux.splice(index, 1);
                 });
@@ -262,10 +267,10 @@ export default {
         },
         deleteCadeauxSelect(cadeau, index){
             try{
-                db.collection('groupe').doc(this.groupe.idGroupe)
+                db.collection('groupe').doc(this.groupeCurrent.idGroupe)
                 .collection('users').doc(this.userActif.id).collection('cadeaux-select').doc(cadeau.id).delete().then((response) =>{
                     console.log('mettre à jour cadeau origin')
-                    let cadeauDoc = db.collection('groupe').doc(this.groupe.idGroupe)
+                    let cadeauDoc = db.collection('groupe').doc(this.groupeCurrent.idGroupe)
                     .collection('users').doc(cadeau.idProprietario).collection('cadeaux').doc(cadeau.idCadeauOriginal);
                     
                     return db.runTransaction(function(transaction) {
@@ -287,27 +292,67 @@ export default {
         }
     },
     created(){
-        console.log(this.groupe)
-        this.getUsers();
-    }
+    },
+    mounted(){
+        const groupe = JSON.parse(sessionStorage.getItem('groupe'));
+        if(!this.groupe && groupe){
+            this.groupeCurrent = groupe;
+        }else if(this.groupe){
+            this.groupeCurrent = this.groupe;
+            sessionStorage.setItem('groupe', JSON.stringify(this.groupe));
+        }
+
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        
+        const users = JSON.parse(sessionStorage.getItem('lstUsers'));
+        if(this.groupe || !users){
+            this.getUsers();
+        }else{
+            this.lstUsers = users;
+            this.userSelect = this.lstUsers[0];
+            this.selectUser(this.userSelect);
+            this.userActif = this.lstUsers.find(u => u.email === user.email);
+            this.isLoading = false;
+        }
+    },
 }
 </script>
 <style scoped>
+    h2{
+        font-family: 'Yatra One', cursive;
+    }
+    h5{
+        text-align: left;
+        margin-bottom: 10px;
+    }
     .details-groupe{
-        padding: 20px;
+        padding: 50px 200px;
+        color: hsl(210, 29%, 24%);
+        background: #fdfdfd;
+        font-family: 'Ubuntu', sans-serif;
+    }
+    .img-groupe{
+        position: absolute;
+        top:20px;
+        right: 60px;
+    }
+    .itemsUsers{
+        display: flex;
     }
     .item-user{
-        border:1px solid #6e5588;
-        height: 60px;
-        line-height: 60px;
+        border:1px solid #69C2FA;
         cursor: pointer;
         font-weight: 600;
+        margin-right: 10px;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-size: 0.9rem;
     }
     .item-user a{
         margin: 0;
     }
     .item-user:hover{
-        background:  #aa80d5;
+        background:  #69C2FA;
     }
     .argent{
         font-size: 14px;
@@ -321,49 +366,52 @@ export default {
         margin-top: 20px;
     }
 
-    .content-cadeaux{
+    /*.content-cadeaux{
         display: flex; 
         flex-wrap: wrap;  
     }
 
     .content-cadeaux > div{
         width: 50%;
-    }
+    }*/
 
-    .itemsCadeaux{
-        padding: 5px;
-        font-size: 16px;
-        border:2px solid #6e5588;
-        height: 500px;
-        overflow-y: scroll;
+    .lstCadeaux{
+        margin-top: 20px;
     }
 
     .item-cadeaux{
-        border: 1px solid #6e5588;
-        height: 60px;
+        border: 1px solid hsl(210, 29%, 24%);
+        padding: 10px;
+        min-height: 100px;
+        font-weight: 600;
         width: 100%;
-        line-height: 55px;
+        border-radius: 5px;
         background: #3fb2cc;
-        font-weight: 700;
         position: relative;
+        margin-bottom: 20px;
+        text-align: left;
+        cursor: pointer;
     }
 
     .item-cadeaux.cadeau-select{
         background: #47dea4;
+        cursor: default;
     }
     .item-cadeaux.cadeaux-selected{
         line-height: normal;
         background: #47dea4;
-        padding: 10px;
+        cursor: default;
     }
     .nom-user{
         font-size: 12px;
+        color:hsl(211, 25%, 34%);
     }
     .nom-cadeau{
-        text-align: center;
+        text-align: left;
     }
     .nom-cadeau.to-select{
         cursor: pointer;
+        min-height: inherit;
     }
 
     .nom-cadeau a{
@@ -374,7 +422,7 @@ export default {
         position: absolute;
         top: 5px;
         right: 5px;
-        color: red;
+        color: hsl(210, 29%, 24%);
         cursor: pointer;
         line-height: normal;
     }
@@ -389,15 +437,16 @@ export default {
         background: #a1301a;
     }
     .user-select{
-        background: #aa80d5;
+        background: #69C2FA;
     }
 
     .actions-groupe{
         display: grid;
         width: 100%;
-        height: 60px;
-        border:1px solid #e04122;
-        grid-template-columns: auto auto auto;
+        height: 60px;   
+        grid-template-columns: 1fr 1fr 1fr;
+        font-family: 'Ubuntu', sans-serif;
+        border-radius: 5px;
     }
 
     .actions-groupe .action{
@@ -405,9 +454,19 @@ export default {
         justify-content: center;
         align-items: center;
         background: #f5f5f5;
-        border:1px solid #e04122;
+        border:1px solid hsl(210, 29%, 24%);
         cursor: pointer;
-        font-weight: 600;
+        font-weight: 500;
+    }
+
+    .actions-groupe .action:first-child{
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .actions-groupe .action:last-child{
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
     }
 
     .actions-groupe .action:hover{
@@ -415,20 +474,40 @@ export default {
     }
 
     .select-only .actions-groupe{
-        grid-template-columns: auto auto;
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
+    
     .action-selected{
-        background: #fe937e !important;
+        background: hsl(210, 29%, 24%) !important;
+        color:#fdfdfd;
     }
 
     .btns{
         height: 50px;
+        margin-bottom: 20px;
     }
-    .btns .btn-action{
-        background: #fe937e;
+
+    .btns .btn.btn-action{
+        font-family: 'Ubuntu', sans-serif;
         float: right;
-        border: 1px solid #e04122;
+        padding: 10px;
+        cursor: pointer;
+        background: transparent;
+        border:none;
+        border-radius: 5px;
+        color: hsl(210, 29%, 24%);
+        font-weight: 500;
+        border:1px solid hsl(210, 29%, 24%);
+    }
+
+    .btns .btn.btn-action:hover{
+        background: hsl(210, 29%, 24%);
+        color: #fdfdfd;
+    }
+
+    .btns .btn.btn-action.disabled{
+        background: #b3b3b3;
     }
 
     .form-group label{

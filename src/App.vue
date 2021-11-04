@@ -17,7 +17,7 @@
         </div> 
     </header>
     <div class="content-app">
-      <menu-left :user="user"/>
+      <menu-left v-show="isAuth"/>
       <div class="content-router" :class="{'auth' : isAuth}">
         <router-view/>
       </div>
@@ -56,6 +56,8 @@ export default {
         sessionStorage.removeItem('userActif');
         sessionStorage.removeItem('lstCadeaux');
         sessionStorage.removeItem('groupeSelect');
+        sessionStorage.removeItem('groupe');
+        sessionStorage.removeItem('lstUsers');
         this.$router.replace('login');
       })
     },
@@ -65,7 +67,7 @@ export default {
   },
   mounted(){
     let auth = firebase.auth().currentUser;
-    this.isAuth = auth !== null
+    this.isAuth = auth !== null;
   }
 }
 </script>
@@ -113,12 +115,12 @@ h2{
 }
 
 .content-router{
-  padding-left: 100px;
+  padding-left: 0px;
 }
 
-/*.auth{
-  margin-left: 130px;
-}*/
+.content-router.auth{
+  margin-left: 100px;
+}
 
 header{
   background: #69C2FA;

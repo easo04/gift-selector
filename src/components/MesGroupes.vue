@@ -4,6 +4,7 @@
             <div>
                 <div class="logo-type-groupe">
                     <img v-if="groupe.isOnlySelect" class="logo-header" src="../assets/groupe-type-select.svg">
+                    <img v-else-if="groupe.isRandomGroupe" class="logo-header" src="../assets/groupe-type-random.svg">
                     <img v-else class="logo-header" src="../assets/groupe-type-default.svg">
                 </div>
                 <div class="details-groupe">
@@ -22,6 +23,8 @@ export default {
         goToDetails(groupe){
             if(groupe.isOnlySelect){
                 this.$router.push({name: 'detailsGroupeOnly', params:{'groupe' : groupe, 'user': this.user.email}});
+            }else if(groupe.isRandomGroupe){
+                this.$router.push({name: 'detailsGroupeRandom', params:{'groupe' : groupe, 'user': this.user.email}});
             }else{
                 this.$router.push({name: 'detailsGroupe', params:{'groupe' : groupe, 'user': this.user.email}});
             }

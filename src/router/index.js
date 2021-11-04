@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import CreateUser from '@/components/CreateUser'
 import DetailsGroupe from '@/components/DetailsGroupe'
 import DetailsGroupeSelectOnly from '@/components/DetailsGroupeSelectOnly'
+import DetailsGroupeRandom from '@/components/DetailsGroupeRandom'
 import MesCadeaux from '@/components/MesCadeaux'
 import MotPasseOublie from '@/components/MotPasseOublie'
 import firebase from 'firebase'
@@ -49,6 +49,15 @@ const router = new Router({
       path: '/details-groupe-only',
       name: 'detailsGroupeOnly',
       component: DetailsGroupeSelectOnly,
+      meta:{
+        auth:true
+      },
+      props:true,
+    },
+    {
+      path: '/details-groupe-ramdom',
+      name: 'detailsGroupeRandom',
+      component: DetailsGroupeRandom,
       meta:{
         auth:true
       },

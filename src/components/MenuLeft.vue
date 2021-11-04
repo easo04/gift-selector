@@ -3,11 +3,11 @@
         <div class="menu-left" :class="{'close-menu' : !showMenu}" v-if="showMenu">
             <ul v-if="showMenu">
                 <li class="btn-bars" @click="showLeftMenu()"><i class="fas fa-bars"></i></li>
-                <li class="btn-with-border-bottom"><a><i class="fas fa-plus"></i> Nouveau groupe</a></li>
-                <li><a><i class="fas fa-gifts"></i> Mes groupes</a></li>
-                <li class="btn-with-border-bottom"><a><i class="fas fa-gift"></i> Mes cadeaux</a></li>
-                <li><a><i class="fas fa-users"></i> Usagers</a></li>
-                <li><a><i class="fas fa-user"></i> Mon profil</a></li>
+                <li class="btn-with-border-bottom" v-if="isAdmin"><a><i class="fas fa-plus"></i> Nouveau groupe</a></li>
+                <li><router-link to="/home"><i class="fas fa-gifts"></i> Mes groupes</router-link></li>
+                <li class="btn-with-border-bottom"><router-link to="/home"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
+                <li v-if="isAdmin"><router-link to="/home"><i class="fas fa-users"></i> Usagers</router-link></li>
+                <li><router-link to="/home"><i class="fas fa-user"></i> Mon profil</router-link></li>
             </ul>
         </div>
         <div v-else class="menu-left-closed" @click="showLeftMenu()"><i class="fas fa-bars"></i></div>
@@ -15,16 +15,21 @@
 </template>
 <script>
 export default {
-    props:['user'],
     data(){
         return{
-            showMenu:true
+            user:{},
+            showMenu:true,
+            isAdmin:false
         }
     },
     methods:{
         showLeftMenu(){
             this.showMenu = !this.showMenu;
         }
+    },
+    mounted(){
+        this.user = JSON.parse(sessionStorage.getItem('user'));
+        this.isAdmin = this.user.isAdmin;
     }
 }
 </script>
@@ -85,6 +90,10 @@ export default {
 .menu-left i{
     display: block;
     font-size: 1.5em;
+}
+
+.menu-left ul li a{
+    color: #fdfdfd;
 }
 
 @media screen and (max-width: 769px){
