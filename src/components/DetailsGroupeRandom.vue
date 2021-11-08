@@ -1,5 +1,6 @@
 <template>
     <div class="details-groupe-random">
+        <btn-back/>
         <h2>{{groupeCurrent.nom}}</h2>
         <div class="img-groupe"><img class="logo-header" src="../assets/groupe-type-random.svg"></div>
         <div>
@@ -108,7 +109,9 @@
 </template>
 <script>
 import {db} from '@/main';
+import BtnBack from './BtnBack.vue';
 export default {
+    components: { BtnBack },
     props:['groupe', 'user'],
     data(){
         return{
@@ -354,6 +357,14 @@ export default {
         font-family: 'Ubuntu', sans-serif;
         position: relative;
     }
+
+    @media screen and (max-width: 769px){
+
+        .details-groupe-random{
+            padding: 50px 20px;
+        }
+    }
+
     .img-groupe{
         position: absolute;
         top:20px;
@@ -361,6 +372,7 @@ export default {
     }
     .itemsUsers{
         display: flex;
+        flex-wrap: wrap;
     }
     .item-user{
         border:1px solid #69C2FA;
@@ -539,20 +551,6 @@ export default {
         background-color: #69C2FA;
     }
 
-    .modal .close{
-        border:1px solid #8c8989;
-        background-color: #b3b3b3;
-        border-radius: 50%;
-        height: 20px;
-        width: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: black;
-        margin-top: 0px;
-        margin-right: 0px;
-    }
-
     #modalRandomUser .modal-body{
         height: 300px;
         display: flex;
@@ -575,21 +573,5 @@ export default {
         text-align: left;
     }
 
-    .modal-footer .btn{
-        font-family: 'Ubuntu', sans-serif;
-        float: right;
-        padding: 10px;
-        cursor: pointer;
-        background: #69C2FA;
-        border:none;
-        border-radius: 5px;
-        color: hsl(210, 29%, 24%);
-        font-weight: 500;
-        border:1px solid hsl(210, 29%, 24%);
-    }
-
-    .modal-footer .btn:hover{
-        background: hsl(210, 29%, 24%);
-        color:  #fdfdfd;
-    }
+    
 </style>

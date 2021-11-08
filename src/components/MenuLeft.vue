@@ -3,23 +3,31 @@
         <div class="menu-left" :class="{'close-menu' : !showMenu}" v-if="showMenu">
             <ul v-if="showMenu">
                 <li class="btn-bars" @click="showLeftMenu()"><i class="fas fa-bars"></i></li>
-                <li class="btn-with-border-bottom" v-if="isAdmin"><a><i class="fas fa-plus"></i> Nouveau groupe</a></li>
+                <li class="btn-with-border-bottom" v-if="isAdmin"><a data-toggle="modal" data-target="#modalAddGroupe"><i class="fas fa-plus"></i> Nouveau groupe</a></li>
                 <li><router-link to="/home"><i class="fas fa-gifts"></i> Mes groupes</router-link></li>
                 <li class="btn-with-border-bottom"><router-link to="/home"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
+                <li v-if="isAdmin"><router-link to="/all-groupes"><i class="fas fa-layer-group"></i> Groupes</router-link></li>
                 <li v-if="isAdmin"><router-link to="/home"><i class="fas fa-users"></i> Usagers</router-link></li>
                 <li><router-link to="/home"><i class="fas fa-user"></i> Mon profil</router-link></li>
             </ul>
         </div>
         <div v-else class="menu-left-closed" @click="showLeftMenu()"><i class="fas fa-bars"></i></div>
+        <add-groupe-modal/>
     </div>
 </template>
 <script>
+import AddGroupeModal from './modals/AddGroupeModal.vue';
 export default {
+    components: { AddGroupeModal },
     data(){
         return{
             user:{},
             showMenu:true,
-            isAdmin:false
+        }
+    },
+    computed:{
+        isAdmin(){
+            return this.user.isAdmin || false;
         }
     },
     methods:{
@@ -29,7 +37,6 @@ export default {
     },
     mounted(){
         this.user = JSON.parse(sessionStorage.getItem('user'));
-        this.isAdmin = this.user.isAdmin;
     }
 }
 </script>
@@ -37,15 +44,12 @@ export default {
 .menu-left{
     position: absolute;
     left: 0;
-    width: 100px;
+    width: 70px;
     font-size: 10px;
     top: 0;
     height: 100%;
     background-color:  hsl(210, 29%, 24%);
     z-index: 9;
-
-        
-    transition: left 1s ease;
 }
 
 .btn-bars{
@@ -73,7 +77,7 @@ export default {
     padding: 0;
     font-family: 'Ubuntu', sans-serif;  
     color: #fdfdfd;
-    font-size: 1.3em;
+    font-size: 1.1em;
 }
 
 .menu-left ul li{
@@ -97,6 +101,9 @@ export default {
 }
 
 @media screen and (max-width: 769px){
+    .menu-left{
+        display: none;
+    }
     .btn-bars{
         display: block;
     }

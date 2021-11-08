@@ -11,8 +11,22 @@
           <span class="title">Gift Selector</span>
         </div>
         <div class="header-actions">
-          <div v-if="isAuth">
+          <div v-if="isAuth" class="menu-desktop">
             <a @click="logout()"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a>
+          </div>
+          <div v-if="isAuth" class="menu-mobil">
+            <div class="menu" @click="setShowItemsMenu()"><i class="fas fa-bars"></i></div>
+            <div class="menu-mobil-items" :class="{'cache' : !showItemsMenu}">
+              <ul>
+                <li class="btn-with-border-bottom" @click="setShowItemsMenu()" v-if="isAdmin" ><a data-toggle="modal" data-target="#modalAddGroupe"><i class="fas fa-plus"></i> Nouveau groupe</a></li>
+                <li @click="setShowItemsMenu()"><router-link to="/home"><i class="fas fa-gifts"></i> Mes groupes</router-link></li>
+                <li @click="setShowItemsMenu()" class="btn-with-border-bottom"><router-link to="/home"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
+                <li @click="setShowItemsMenu()" v-if="isAdmin"><router-link to="/all-groupes"><i class="fas fa-layer-group"></i> Groupes</router-link></li>
+                <li @click="setShowItemsMenu()" v-if="isAdmin"><router-link to="/home"><i class="fas fa-users"></i> Usagers</router-link></li>
+                <li @click="setShowItemsMenu()"><router-link to="/home"><i class="fas fa-user"></i> Mon profil</router-link></li>
+                <li @click="setShowItemsMenu()"><a @click="logout()"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a></li>
+              </ul>
+            </div>
           </div>
         </div> 
     </header>
@@ -37,6 +51,7 @@ export default {
   data(){
     return{
       isAuth:false,
+      showItemsMenu:false
     }
   },
   methods:{
@@ -53,7 +68,6 @@ export default {
       firebase.auth().signOut().then(response =>{
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('lstGroupes');
-        sessionStorage.removeItem('userActif');
         sessionStorage.removeItem('lstCadeaux');
         sessionStorage.removeItem('groupeSelect');
         sessionStorage.removeItem('groupe');
@@ -63,6 +77,9 @@ export default {
     },
     goToMesCadeau(){
         this.$router.push({name: 'mesCadeaux', params:{'user': this.user}});
+    },
+    setShowItemsMenu(){
+      this.showItemsMenu = !this.showItemsMenu;
     }
   },
   mounted(){
@@ -130,6 +147,8 @@ header{
   top:0;
   z-index: 900;
   width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 header a{
   cursor: pointer;
@@ -158,8 +177,8 @@ header a:hover{
   float: right;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   height: 100%;
-  
 }
 
 footer{
@@ -173,6 +192,90 @@ footer{
 footer span{
   font-family:  'Pacifico', cursive;
   font-weight: 600;
+}
+
+.modal .close{
+    border:1px solid #8c8989;
+    background-color: #b3b3b3;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    margin-top: 0px;
+    margin-right: 0px;
+}
+
+.modal-footer .btn{
+    font-family: 'Ubuntu', sans-serif;
+    float: right;
+    padding: 10px;
+    cursor: pointer;
+    background: #69C2FA;
+    border:none;
+    border-radius: 5px;
+    color: hsl(210, 29%, 24%);
+    font-weight: 500;
+    border:1px solid hsl(210, 29%, 24%);
+}
+
+.modal-footer .btn:hover{
+    background: hsl(210, 29%, 24%);
+    color:  #fdfdfd;
+}
+
+.menu-mobil{
+  position: relative;
+  display: none;
+}
+
+.menu-mobil .menu{
+  font-size: 1.5em;
+  color: hsl(210, 29%, 24%);
+}
+
+.menu-mobil .menu-mobil-items{
+  position: absolute;
+  height: 100vh;
+  width: 300px;
+  right: -10px;
+  transition: right 1s ease;
+  background: hsl(210, 29%, 24%);
+  color:  #fdfdfd;
+}
+
+.menu-mobil .menu-mobil-items ul{
+    list-style: none;
+    text-align: left;
+    padding: 0;
+}
+.menu-mobil .menu-mobil-items li{
+    padding: 20px 15px;
+}
+.menu-mobil .menu-mobil-items li a{
+  color:  #fdfdfd;
+}
+
+
+.menu-mobil .menu-mobil-items.cache{
+  right: -500px;
+}
+
+
+@media screen and (max-width: 769px){
+
+  .content-router.auth{
+    margin-left: 0px;
+  }
+
+  .menu-mobil{
+    display: block;
+  }
+  .menu-desktop{
+    display: none;
+  }
 }
 
 </style>

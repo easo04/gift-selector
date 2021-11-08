@@ -1,5 +1,6 @@
 <template>
 <div class="details-groupe">
+    <btn-back/>
     <h2>{{infosGroupe.nom}}</h2>
     <h5><span class="argent"><span v-if="infosGroupe.maximum">Max {{infosGroupe.maximum}}$</span> 
                     <span v-if="infosGroupe.minimum">Min {{infosGroupe.minimum}}$</span></span></h5>
@@ -97,7 +98,9 @@
 </template>
 <script>
 import {db} from '@/main';
+import BtnBack from './BtnBack.vue';
 export default {
+    components: { BtnBack },
     props:['groupe', 'user'],
     data(){
         return{
@@ -274,9 +277,9 @@ export default {
             }
         },
     },
-    created(){
+    mounted(){
         
-        const user = JSON.parse(sessionStorage.getItem('userActif'));
+        const user = JSON.parse(sessionStorage.getItem('user'));
         const cadeaux = JSON.parse(sessionStorage.getItem('lstCadeaux'));
         const groupe = JSON.parse(sessionStorage.getItem('groupeSelect'));
         if(user && cadeaux && groupe){

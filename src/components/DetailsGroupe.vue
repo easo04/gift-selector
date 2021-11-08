@@ -1,5 +1,6 @@
 <template>
 <div class="details-groupe">
+    <btn-back/>
     <h2>{{groupeCurrent.nom}}</h2>
     <h5><span class="argent"><span v-if="groupeCurrent.maximum">Max {{groupeCurrent.maximum}}$</span> 
                     <span v-if="groupeCurrent.minimum">Min {{groupeCurrent.minimum}}$</span></span></h5>
@@ -66,23 +67,23 @@
     <div class="modal" id="modalAddCadeau">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Ajouter cadeau</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="nom">Nom:</label>
-                    <input type="text" class="form-control" id="nom" v-model="cadeauAddModel.nom">
+                <div class="modal-header">
+                    <h4 class="modal-title">Ajouter cadeau</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="form-group">
-                    <label for="url">Url (facultatif):</label>
-                    <input type="text" class="form-control" id="url" v-model="cadeauAddModel.url">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nom">Nom:</label>
+                        <input type="text" class="form-control" id="nom" v-model="cadeauAddModel.nom">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Url (facultatif):</label>
+                        <input type="text" class="form-control" id="url" v-model="cadeauAddModel.url">
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" @click="addCadeau()">Sauvegarder</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" @click="addCadeau()">Sauvegarder</button>
+                </div>
             </div>
         </div>
     </div>
@@ -90,7 +91,9 @@
 </template>
 <script>
 import {db} from '@/main';
+import BtnBack from './BtnBack.vue';
 export default {
+    components: { BtnBack },
     props:['groupe', 'user'],
     data(){
         return{
@@ -331,15 +334,24 @@ export default {
         background: #fdfdfd;
         font-family: 'Ubuntu', sans-serif;
     }
-    .img-groupe{
+
+    @media screen and (max-width: 769px){
+
+        .details-groupe{
+            padding: 50px 20px;
+        }
+    }
+
+    .details-groupe .img-groupe{
         position: absolute;
         top:20px;
         right: 60px;
     }
-    .itemsUsers{
+    .details-groupe .itemsUsers{
         display: flex;
+        flex-wrap: wrap;
     }
-    .item-user{
+    .details-groupe .item-user{
         border:1px solid #69C2FA;
         cursor: pointer;
         font-weight: 600;
@@ -347,14 +359,15 @@ export default {
         padding: 10px 20px;
         border-radius: 10px;
         font-size: 0.9rem;
+        margin-top: 10px;
     }
-    .item-user a{
+    .details-groupe .item-user a{
         margin: 0;
     }
-    .item-user:hover{
+    .details-groupe .item-user:hover{
         background:  #69C2FA;
     }
-    .argent{
+    .details-groupe .argent{
         font-size: 14px;
         color: seagreen;
     }
@@ -379,7 +392,7 @@ export default {
         margin-top: 20px;
     }
 
-    .item-cadeaux{
+    .details-groupe .item-cadeaux{
         border: 1px solid hsl(210, 29%, 24%);
         padding: 10px;
         min-height: 100px;

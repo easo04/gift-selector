@@ -5,9 +5,11 @@ import Home from '@/components/Home'
 import CreateUser from '@/components/CreateUser'
 import DetailsGroupe from '@/components/DetailsGroupe'
 import DetailsGroupeSelectOnly from '@/components/DetailsGroupeSelectOnly'
+import Groupes from '@/components/Groupes'
 import DetailsGroupeRandom from '@/components/DetailsGroupeRandom'
 import MesCadeaux from '@/components/MesCadeaux'
 import MotPasseOublie from '@/components/MotPasseOublie'
+import GroupeDetail from '@/components/GroupeDetail'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -73,6 +75,15 @@ const router = new Router({
       props:true,
     },
     {
+      path: '/all-groupes',
+      name: 'allGroupes',
+      component: Groupes,
+      meta:{
+        auth:true
+      },
+      props:true,
+    },
+    {
       path: '/create-user',
       name: 'createUser',
       component: CreateUser,
@@ -81,6 +92,15 @@ const router = new Router({
       path: '/password-update',
       name: 'MotPasseOublie',
       component: MotPasseOublie,
+    },
+    {
+      path: '/groupe-detail',
+      name: 'groupeDetail',
+      component: GroupeDetail,
+      meta:{
+        auth:true
+      },
+      props:true,
     },
   ]
 })
