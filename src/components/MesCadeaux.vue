@@ -42,6 +42,11 @@ export default {
     background: #fdfdfd;
     text-align: left;
 }
+@media screen and (max-width: 769px){
+    .mes-cadeaux{
+        padding: 20px;
+    }
+}
 .mes-cadeaux h5 h6{
     font-family: 'Ubuntu', sans-serif;  
 }

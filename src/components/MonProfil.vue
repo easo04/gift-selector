@@ -80,12 +80,19 @@ export default {
         margin-bottom: 10px;
         font-family: 'Yatra One', cursive;
     }
+
     .mon-profil{
         padding: 50px 200px;
         color: hsl(210, 29%, 24%);
         background: #fdfdfd;
         font-family: 'Ubuntu', sans-serif;
         text-align: left;
+    }
+
+    @media screen and (max-width: 769px){
+        .mon-profil{
+            padding: 20px;
+        }
     }
     .label{
         font-weight: 600;

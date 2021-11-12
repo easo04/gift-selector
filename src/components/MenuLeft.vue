@@ -35,7 +35,8 @@ export default {
     },
     mounted(){
         this.user = JSON.parse(sessionStorage.getItem('user'));
-        this.isAdmin =  this.user.isAdmin || false;
+        this.isAdmin =  this.user  && this.user.isAdmin !== undefined? this.user.isAdmin : false;
+        
     }
 }
 </script>
