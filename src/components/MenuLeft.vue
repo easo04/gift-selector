@@ -5,10 +5,10 @@
                 <li class="btn-bars" @click="showLeftMenu()"><i class="fas fa-bars"></i></li>
                 <li class="btn-with-border-bottom" v-if="isAdmin"><a data-toggle="modal" data-target="#modalAddGroupe"><i class="fas fa-plus"></i> Nouveau groupe</a></li>
                 <li><router-link to="/home"><i class="fas fa-gifts"></i> Mes groupes</router-link></li>
-                <li class="btn-with-border-bottom"><router-link to="/home"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
+                <li class="btn-with-border-bottom"><router-link to="/mes-cadeaux"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
                 <li v-if="isAdmin"><router-link to="/all-groupes"><i class="fas fa-layer-group"></i> Groupes</router-link></li>
                 <li v-if="isAdmin"><router-link to="/home"><i class="fas fa-users"></i> Usagers</router-link></li>
-                <li><router-link to="/home"><i class="fas fa-user"></i> Mon profil</router-link></li>
+                <li><router-link to="/mon-profil"><i class="fas fa-user"></i> Mon profil</router-link></li>
             </ul>
         </div>
         <div v-else class="menu-left-closed" @click="showLeftMenu()"><i class="fas fa-bars"></i></div>
@@ -23,12 +23,10 @@ export default {
         return{
             user:{},
             showMenu:true,
+            isAdmin:false
         }
     },
     computed:{
-        isAdmin(){
-            return this.user.isAdmin || false;
-        }
     },
     methods:{
         showLeftMenu(){
@@ -37,12 +35,13 @@ export default {
     },
     mounted(){
         this.user = JSON.parse(sessionStorage.getItem('user'));
+        this.isAdmin =  this.user.isAdmin || false;
     }
 }
 </script>
 <style>
 .menu-left{
-    position: absolute;
+    position: fixed;
     left: 0;
     width: 70px;
     font-size: 10px;
@@ -50,6 +49,7 @@ export default {
     height: 100%;
     background-color:  hsl(210, 29%, 24%);
     z-index: 9;
+    margin-top: 80px;
 }
 
 .btn-bars{

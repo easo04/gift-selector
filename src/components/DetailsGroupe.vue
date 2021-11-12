@@ -221,19 +221,22 @@ export default {
         },
         addCadeau(){
             if(this.cadeauAddModel.nom){
+                let cadeau = {
+                    nom:this.cadeauAddModel.nom,
+                    url:this.cadeauAddModel.url ? this.cadeauAddModel.url : '',
+                    isSelect:false
+                };
                 try{
-                    db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add({
-                        nom:this.cadeauAddModel.nom,
-                        url:this.cadeauAddModel.url ? this.cadeauAddModel.url : '',
-                        isSelect:false,
-                        userSelect:''
-                    }).then(() => {
-                        this.lstMesCadeaux.push(this.cadeauAddModel);
-                        this.cadeauAddModel ={
-                            nom:undefined,
-                            url:undefined
-                        }
-                        $("#modalAddCadeau").modal("hide");
+                    db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add(cadeau).then(() => {
+                        cadeau.groupe = this.groupeCurrent.nom;
+                        db.collection('users').doc(this.userActif.id).collection('mes-cadeaux').add(cadeau).then(() =>{
+                            this.lstMesCadeaux.push(this.cadeauAddModel);
+                            this.cadeauAddModel ={
+                                nom:undefined,
+                                url:undefined
+                            };
+                            $("#modalAddCadeau").modal("hide");
+                        })
                     }).catch((error) =>{
                         console.log('erreur add cadeau:' + error)
                     });

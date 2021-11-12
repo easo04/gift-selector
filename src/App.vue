@@ -20,10 +20,10 @@
               <ul>
                 <li class="btn-with-border-bottom" @click="setShowItemsMenu()" v-if="isAdmin" ><a data-toggle="modal" data-target="#modalAddGroupe"><i class="fas fa-plus"></i> Nouveau groupe</a></li>
                 <li @click="setShowItemsMenu()"><router-link to="/home"><i class="fas fa-gifts"></i> Mes groupes</router-link></li>
-                <li @click="setShowItemsMenu()" class="btn-with-border-bottom"><router-link to="/home"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
+                <li @click="setShowItemsMenu()" class="btn-with-border-bottom"><router-link to="/mes-cadeaux"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
                 <li @click="setShowItemsMenu()" v-if="isAdmin"><router-link to="/all-groupes"><i class="fas fa-layer-group"></i> Groupes</router-link></li>
                 <li @click="setShowItemsMenu()" v-if="isAdmin"><router-link to="/home"><i class="fas fa-users"></i> Usagers</router-link></li>
-                <li @click="setShowItemsMenu()"><router-link to="/home"><i class="fas fa-user"></i> Mon profil</router-link></li>
+                <li @click="setShowItemsMenu()"><router-link to="/mon-profil"><i class="fas fa-user"></i> Mon profil</router-link></li>
                 <li @click="setShowItemsMenu()"><a @click="logout()"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a></li>
               </ul>
             </div>
@@ -51,7 +51,8 @@ export default {
   data(){
     return{
       isAuth:false,
-      showItemsMenu:false
+      showItemsMenu:false,
+      isAdmin:false
     }
   },
   methods:{

@@ -10,6 +10,7 @@ import DetailsGroupeRandom from '@/components/DetailsGroupeRandom'
 import MesCadeaux from '@/components/MesCadeaux'
 import MotPasseOublie from '@/components/MotPasseOublie'
 import GroupeDetail from '@/components/GroupeDetail'
+import monProfil from '@/components/MonProfil'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -97,6 +98,15 @@ const router = new Router({
       path: '/groupe-detail',
       name: 'groupeDetail',
       component: GroupeDetail,
+      meta:{
+        auth:true
+      },
+      props:true,
+    },
+    {
+      path: '/mon-profil',
+      name: 'monProfil',
+      component: monProfil,
       meta:{
         auth:true
       },
