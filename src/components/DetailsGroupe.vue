@@ -58,7 +58,8 @@
             <div class="action-content" v-if="showDonner">
                 <div v-for="(cadeau, index) in lstCadeauxSelect" :key="index" class="item-cadeaux cadeaux-selected">
                     <span>{{cadeau.nom}}</span><br>
-                    <span class="nom-user">{{cadeau.user}}</span>
+                    <span class="nom-user">{{cadeau.user}}</span><br>
+                    <a class="lien" :href="cadeau.url" target="_blank">Lien de l'article</a>
                     <div class="delete-cadeau" @click="deleteCadeauxSelect(cadeau, index)"><i class="fa fa-trash"></i></div>
                 </div>
             </div> 
@@ -113,7 +114,8 @@ export default {
                 nom:undefined,
                 url:undefined
             },
-            groupeCurrent: {}
+            groupeCurrent: {},
+            userActifConnect:{}
         }
     },
     methods:{
@@ -229,7 +231,7 @@ export default {
                 try{
                     db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add(cadeau).then(() => {
                         cadeau.groupe = this.groupeCurrent.nom;
-                        db.collection('users').doc(this.userActif.id).collection('mes-cadeaux').add(cadeau).then(() =>{
+                        db.collection('users').doc(this.userActifConnect.id).collection('mes-cadeaux').add(cadeau).then(() =>{
                             this.lstMesCadeaux.push(this.cadeauAddModel);
                             this.cadeauAddModel ={
                                 nom:undefined,
@@ -251,7 +253,8 @@ export default {
                     nom:cadeau.nom,
                     user:this.userSelect.prenom + ' ' + this.userSelect.nom,
                     idProprietario: this.userSelect.id,
-                    idCadeauOriginal:cadeau.id
+                    idCadeauOriginal:cadeau.id,
+                    url:cadeau.url
                 }).then(() => {
                     console.log('cadeau select ajouté')
                 }).catch((error) =>{
@@ -320,6 +323,8 @@ export default {
             this.userActif = this.lstUsers.find(u => u.email === user.email);
             this.isLoading = false;
         }
+
+        this.userActifConnect = user;
     },
 }
 </script>
@@ -528,5 +533,12 @@ export default {
 
     .form-group label{
         text-align: left;
+    }
+
+    .lien{
+        color: hsl(210, 29%, 24%);   
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 0.8em;
+        text-decoration: underline;
     }
 </style>

@@ -133,6 +133,7 @@ export default {
                 url:undefined
             },
             userRandom:undefined,
+            userActifConnect:{},
             loadinRandomUser:true,
         }
     },
@@ -231,18 +232,22 @@ export default {
         addCadeau(){
             if(this.cadeauAddModel.nom){
                 try{
-                    db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add({
+                    let cadeau = {  
                         nom:this.cadeauAddModel.nom,
                         url:this.cadeauAddModel.url ? this.cadeauAddModel.url : '',
                         isSelect:false,
                         userSelect:''
-                    }).then(() => {
-                        this.lstMesCadeaux.push(this.cadeauAddModel);
-                        this.cadeauAddModel ={
-                            nom:undefined,
-                            url:undefined
-                        }
-                        $("#modalAddCadeau").modal("hide");
+                    };
+                    db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userActif.id).collection('cadeaux').add(cadeau).then(() => {                           
+                        cadeau.groupe = this.groupeCurrent.nom;
+                        db.collection('users').doc(this.userActifConnect.id).collection('mes-cadeaux').add(cadeau).then(() =>{
+                            this.lstMesCadeaux.push(this.cadeauAddModel);
+                            this.cadeauAddModel ={
+                                nom:undefined,
+                                url:undefined
+                            };
+                            $("#modalAddCadeau").modal("hide");
+                        });
                     }).catch((error) =>{
                         console.log('erreur add cadeau:' + error)
                     });
@@ -331,6 +336,7 @@ export default {
         }
 
         const user = JSON.parse(sessionStorage.getItem('user'));
+        this.userActifConnect = user;
         
         const users = JSON.parse(sessionStorage.getItem('lstUsers'));
         //si le groupe est passé en scope, on recharge la page

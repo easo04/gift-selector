@@ -120,7 +120,8 @@ export default {
                 nom:undefined,
                 url:undefined,
                 codeRabais:undefined
-            }
+            }, 
+            userActifConnect:{}
         }
     },
     methods:{
@@ -293,6 +294,7 @@ export default {
             this.getCadeaux();
             this.getUsers();
         }
+        this.userActifConnect = user;
     },
     beforeDestroy(){
         sessionStorage.setItem('lstCadeaux', JSON.stringify(this.lstCadeaux));
