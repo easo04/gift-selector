@@ -40,7 +40,8 @@
                                 <span v-else>{{c.nom}}</span>
                             </div>
                             <div class="nom-cadeau to-select" @click="choisir(c)" v-else>
-                                <span >{{c.nom}}</span>
+                                <a :href="c.url" target="_blank" v-if="c.url">{{c.nom}}</a>
+                                <span v-else>{{c.nom}}</span>
                             </div>
                         </div> 
                     </div>
@@ -436,7 +437,12 @@ export default {
     }
 
     .nom-cadeau a{
-        color: hsl(210, 29%, 24%);;
+        color: hsl(210, 29%, 24%);
+        text-decoration: underline;
+    }
+
+    .nom-cadeau a:hover{
+        text-decoration: none;
     }
 
     .delete-cadeau{

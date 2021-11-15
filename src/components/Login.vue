@@ -16,7 +16,7 @@
                         <input type="password" placeholder="Mot de passe" v-model="password" class="input-text">
                         <input type="submit" value="Se connecter" class="btn-login">
                     </form>
-                    <a class="btn-create" @click="createUser()">Créer votre compte</a>
+                    <!--<a class="btn-create" @click="createUser()">Créer votre compte</a>-->
                     <a class="btn-update-mdp" @click="mdpOublie()">Mot de passe oublié</a>
                 </div> 
             </div>

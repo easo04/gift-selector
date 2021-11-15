@@ -5,6 +5,7 @@
         </div>
         <div class="content">
             <div>
+                <btn-back/>
                 <h2>Créer votre compte</h2>
                 <div class="form-create">
                     <div class="error" v-if="error">
@@ -41,7 +42,9 @@
 <script>
     import firebase from 'firebase'
     import {db} from '@/main';
+import BtnBack from './BtnBack.vue';
     export default {
+    components: { BtnBack },
         data() {
             return {
                 user:undefined,
@@ -65,11 +68,12 @@
                         email:this.user.toLowerCase()
                     }).then((res) => {
                         db.collection('users').doc(res.id).collection('groupes').add({
-                            nom:'BabyShower Tania',
-                            idGroupe:'LN7rqsmULnoOAilRR1Cg',
-                            isOnlySelect:true
+                            nom:'Familia Silvera',
+                            idGroupe:'bkXNgy0IFf9sBJLrcStm',
+                            maximum:50,
+                            minimum:10
                         }).then(()=>{
-                            db.collection('groupe').doc('LN7rqsmULnoOAilRR1Cg').collection('users').add({
+                            db.collection('groupe').doc('bkXNgy0IFf9sBJLrcStm').collection('users').add({
                                 nom:this.lastName,
                                 prenom:this.firstName,
                                 email:this.user.toLowerCase(),
