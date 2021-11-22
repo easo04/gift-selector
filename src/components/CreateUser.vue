@@ -5,7 +5,6 @@
         </div>
         <div class="content">
             <div>
-                <btn-back/>
                 <h2>Créer votre compte</h2>
                 <div class="form-create">
                     <div class="error" v-if="error">
@@ -42,9 +41,7 @@
 <script>
     import firebase from 'firebase'
     import {db} from '@/main';
-import BtnBack from './BtnBack.vue';
     export default {
-    components: { BtnBack },
         data() {
             return {
                 user:undefined,
@@ -52,7 +49,8 @@ import BtnBack from './BtnBack.vue';
                 firstName:undefined,
                 lastName:undefined,
                 passwordConfirm:undefined,
-                error:undefined
+                error:undefined,
+                groupe:{}
             }
         },
         methods: {
@@ -68,12 +66,14 @@ import BtnBack from './BtnBack.vue';
                         email:this.user.toLowerCase()
                     }).then((res) => {
                         db.collection('users').doc(res.id).collection('groupes').add({
-                            nom:'Familia Silvera',
-                            idGroupe:'bkXNgy0IFf9sBJLrcStm',
-                            maximum:50,
-                            minimum:10
+                            nom:this.groupe.nom,
+                            idGroupe:this.groupe.id,
+                            maximum:this.groupe.maximum ? this.groupe.maximum : 0,
+                            minimum:this.groupe.minimum ? his.groupe.minimum : 0,
+                            isOnlySelect:this.groupe.isOnlySelect ? this.groupe.isOnlySelect : false,
+                            isRandomGroupe:this.groupe.isRandomGroupe ? this.groupe.isRandomGroupe : false
                         }).then(()=>{
-                            db.collection('groupe').doc('bkXNgy0IFf9sBJLrcStm').collection('users').add({
+                            db.collection('groupe').doc(this.groupe.id).collection('users').add({
                                 nom:this.lastName,
                                 prenom:this.firstName,
                                 email:this.user.toLowerCase(),
@@ -112,6 +112,18 @@ import BtnBack from './BtnBack.vue';
                     }
                     console.log(error)
                 });
+            }
+        },
+        mounted(){
+            if(this.$route.query && this.$route.query.groupe){
+                const idGroupe = this.$route.query.groupe;
+                db.collection('groupe').doc(idGroupe).get().then(doc =>{
+                    this.groupe = doc.data();
+                    this.groupe.id = idGroupe;
+                    console.log(this.groupe)
+                }).catch(err =>  this.$router.replace('login'))
+            }else{
+                this.$router.replace('login')
             }
         }
     }

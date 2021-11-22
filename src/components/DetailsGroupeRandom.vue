@@ -51,8 +51,8 @@
                         <div class="delete-cadeau" @click="deleteMesCadeaux(cadeau, index)" v-if="!cadeau.isSelect"><i class="fa fa-trash"></i></div>
                     </div>
                 </div> 
-                <div class="action-content" v-if="showDonner">
-                    <h5>La liste de cadeaux de {{userRandom.prenom}}</h5>
+                <div class="action-content" v-if="showDonner && userRandom">
+                    <h5>La liste de cadeaux de <strong>{{userRandom.prenom}}</strong></h5>
                     <div v-for="(cadeau, index) in lstCadeauxSelect" :key="index" class="item-cadeaux cadeaux-selected">
                         <h5>{{cadeau.nom}}</h5>
                         <span class="nom-user">{{cadeau.user}}</span>
@@ -218,16 +218,18 @@ export default {
             })
         },
         getCadeauxSelect(){
-            db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userRandom.id).collection('cadeaux').get().then(response =>{
-                const cadeaux = [];
-                response.forEach(doc => {
-                    let data = doc.data();
-                    data.id = doc.id;
-                    cadeaux.push(data);
-                });
-                
-                this.lstCadeauxSelect = cadeaux;
-            })
+            if(this.userRandom && this.userRandom.id){
+                db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userRandom.id).collection('cadeaux').get().then(response =>{
+                    const cadeaux = [];
+                    response.forEach(doc => {
+                        let data = doc.data();
+                        data.id = doc.id;
+                        cadeaux.push(data);
+                    });
+                    
+                    this.lstCadeauxSelect = cadeaux;
+                })
+            }
         },
         addCadeau(){
             if(this.cadeauAddModel.nom){
@@ -303,12 +305,15 @@ export default {
         selectRandomUser(){
             //this.updateUsersSelect();
             this.loadinRandomUser = true;
-            setTimeout(() => { 
-                const usersNotSelect = this.lstUsers.filter(user => user.isSelect === false && user.id !== this.userActif.id);
-                this.userRandom = usersNotSelect[Math.floor(Math.random() * usersNotSelect.length)];
+            console.log(this.lstUsers);
+            console.log(this.userActif.id)
 
-                let userDoc = db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userRandom.id);
-                
+            const usersNotSelect = this.lstUsers.filter(user => !user.isSelect && user.id !== this.userActif.id);
+            this.userRandom = usersNotSelect[Math.floor(Math.random() * usersNotSelect.length)];
+
+            let userDoc = db.collection('groupe').doc(this.groupeCurrent.idGroupe).collection('users').doc(this.userRandom.id);
+
+            setTimeout(() => { 
                 return db.runTransaction(function(transaction) {
                     return transaction.get(userDoc).then(function(sfDoc) {
                         if (!sfDoc.exists) {
