@@ -332,6 +332,9 @@ export default {
         }
     },
     created(){
+        if(!this.groupe){
+            this.$router.replace('home')
+        }
     },
     mounted(){
         const groupe = JSON.parse(sessionStorage.getItem('groupe'));
@@ -387,6 +390,25 @@ export default {
         display: flex;
         flex-wrap: wrap;
     }
+
+    .itemsUsers .item-user{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    @media screen and (max-width: 769px){
+
+        .itemsUsers{
+            flex-wrap: nowrap;
+            overflow-x:scroll;
+            padding: 10px 0px;
+        }
+    }
+
+
+
     .item-user{
         border:1px solid #69C2FA;
         cursor: pointer;
