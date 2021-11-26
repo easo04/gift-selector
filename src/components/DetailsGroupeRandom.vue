@@ -6,7 +6,7 @@
         <div>
             <div class="spinner-border" v-if="isLoading"></div>
             <div class="content-groupe" v-else>
-                <div class="btns" v-if="!userActif.userSelect">
+                <div class="btns" v-if="showBtnSelect()">
                     <button class="btn btn-action btn-random" data-toggle="modal" data-target="#modalRandomUser" @click="selectRandomUser()"><i class="fas fa-random"></i> Piger un nom</button>
                 </div>
                 <div class="actions-groupe">
@@ -22,10 +22,10 @@
                 </div>
                 <div v-if="showCadeauxGroupe" class="action-content content-cadeaux">
                     <div class="lstUsers">
-                        <h5>Usagers</h5>       
+                        <h5>Participants</h5>       
                         <div class="itemsUsers">
                             <div class="item-user" v-for="(user, index) in lstUsers" :key="index" @click="selectUser(user)" :class="{'user-select' : user.email === userSelect.email}">
-                                <div>{{user.prenom}} {{user.nom}}</div>
+                                <div>{{user.prenom}}</div>
                                 <div class="my-select" v-if="user.isMySelect"><i class="fas fa-gift"></i></div>
                             </div> 
                         </div>
@@ -138,6 +138,10 @@ export default {
         }
     },
         methods:{
+        showBtnSelect(){
+            return false;
+            //return  !this.userActif.userSelect;
+        },
         initUserInfos(users){
             this.lstUsers = users;
             this.userSelect = this.lstUsers[0]
@@ -305,8 +309,6 @@ export default {
         selectRandomUser(){
             //this.updateUsersSelect();
             this.loadinRandomUser = true;
-            console.log(this.lstUsers);
-            console.log(this.userActif.id)
 
             const usersNotSelect = this.lstUsers.filter(user => !user.isSelect && user.id !== this.userActif.id);
             this.userRandom = usersNotSelect[Math.floor(Math.random() * usersNotSelect.length)];
