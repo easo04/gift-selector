@@ -144,7 +144,7 @@ export default {
         },
         initUserInfos(users){
             this.lstUsers = users;
-            this.userSelect = this.lstUsers[0]
+            this.userSelect = this.lstUsers[0];
             this.selectUser(this.userSelect);
 
             //select user connect
@@ -309,6 +309,9 @@ export default {
         selectRandomUser(){
             //this.updateUsersSelect();
             this.loadinRandomUser = true;
+
+            //mettre à jour les usagers de la bd
+            this.getUsers();
 
             const usersNotSelect = this.lstUsers.filter(user => !user.isSelect && user.id !== this.userActif.id);
             this.userRandom = usersNotSelect[Math.floor(Math.random() * usersNotSelect.length)];
