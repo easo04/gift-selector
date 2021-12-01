@@ -56,6 +56,7 @@
                     <div v-for="(cadeau, index) in lstCadeauxSelect" :key="index" class="item-cadeaux cadeaux-selected">
                         <h5>{{cadeau.nom}}</h5>
                         <span class="nom-user">{{cadeau.user}}</span>
+                        <a :href="cadeau.url" target="_blank" v-if="cadeau.url">Lien de l'article</a>
                     </div>
                 </div> 
             </div>
@@ -587,6 +588,12 @@ export default {
 
     .btns .btn.btn-action.btn-random{
         background-color: #69C2FA;
+    }
+
+    .cadeaux-selected a{
+        text-decoration: underline;
+        color:royalblue;
+        font-size: 14px;
     }
 
     #modalRandomUser .modal-body{
