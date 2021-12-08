@@ -140,8 +140,8 @@ export default {
     },
         methods:{
         showBtnSelect(){
-            return false;
-            //return  !this.userActif.userSelect;
+            //return false;
+            return  !this.userActif.userSelect;
         },
         initUserInfos(users){
             this.lstUsers = users;
