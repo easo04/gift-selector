@@ -73,7 +73,7 @@ import MesGroupes from './MesGroupes.vue'
 <style scoped>
 .home-page{
     padding: 50px 200px;
-    font-family: 'Yatra One', cursive;
+    font-family: 'Ubuntu', sans-serif;
     background: #fdfdfd;
 }
 @media screen and (max-width: 769px){

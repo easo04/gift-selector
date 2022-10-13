@@ -1,8 +1,5 @@
 <template>
     <div class="login-page">
-        <div class="image">
-            <img src="../assets/gift.svg">
-        </div>
         <div class="content">
             <div>
                 <h1>Gift Selector</h1>
@@ -16,7 +13,6 @@
                         <input type="password" placeholder="Mot de passe" v-model="password" class="input-text">
                         <input type="submit" value="Se connecter" class="btn-login">
                     </form>
-                    <!--<a class="btn-create" @click="createUser()">Créer votre compte</a>-->
                     <a class="btn-update-mdp" @click="mdpOublie()">Mot de passe oublié</a>
                 </div> 
             </div>
@@ -69,11 +65,9 @@
         min-height: 100vh;
         display: flex;
         color: hsl(210, 29%, 24%);
-        font-family: 'Yatra One', cursive;
-        flex-wrap: wrap;
-    }
-    .login-page >div{
-        width: 50%;
+        font-family: 'Ubuntu', sans-serif;
+        align-items: center;
+        justify-content: center;
     }
     .login-page h1{
         font-weight: 600;
@@ -100,11 +94,6 @@
         .login-page >div{
             width: 100%;
         }
-    }
-    .login-page .content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
     .form-login{
         display: flex;

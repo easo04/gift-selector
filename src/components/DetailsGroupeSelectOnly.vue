@@ -303,7 +303,10 @@ export default {
 </script>
 <style scoped>
     h2{
-        font-family: 'Yatra One', cursive;
+        /*font-family: 'Yatra One', cursive;*/
+        font-family: 'Oooh Baby', cursive;
+        font-weight: 700;
+        font-size: 3em;
     }
     .details-groupe{
         padding: 50px 200px;

@@ -1,6 +1,6 @@
 <template>
     <div class="btn-back">
-        <a @click="back()">Back</a>
+        <a @click="back()">Retour</a>
     </div>
 </template>
 <script>

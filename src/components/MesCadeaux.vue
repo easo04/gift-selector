@@ -38,7 +38,7 @@ export default {
 <style scoped>
 .mes-cadeaux{
     padding: 50px 200px;
-    font-family: 'Yatra One', cursive;
+    font-family: 'Ubuntu', sans-serif;
     background: #fdfdfd;
     text-align: left;
 }

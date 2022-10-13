@@ -45,7 +45,7 @@ export default {
 <style>
     .groupes-page{
         padding: 50px 200px;
-        font-family: 'Yatra One', cursive;
+        font-family: 'Ubuntu', sans-serif;
         background: #fdfdfd;
     }
     .groupes-page h3{

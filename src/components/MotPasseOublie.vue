@@ -59,7 +59,7 @@
     .mdp-oublie-page{
         min-height: 100vh;
         display: flex;   
-        font-family: 'Yatra One', cursive;
+        font-family: 'Ubuntu', sans-serif;
         background: #fdfdfd;
         flex-wrap: wrap;
     }

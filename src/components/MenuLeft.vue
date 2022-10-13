@@ -7,7 +7,6 @@
                 <li><router-link to="/home"><i class="fas fa-gifts"></i> Mes groupes</router-link></li>
                 <li class="btn-with-border-bottom"><router-link to="/mes-cadeaux"><i class="fas fa-gift"></i> Mes cadeaux</router-link></li>
                 <li v-if="isAdmin"><router-link to="/all-groupes"><i class="fas fa-layer-group"></i> Groupes</router-link></li>
-                <li v-if="isAdmin"><router-link to="/home"><i class="fas fa-users"></i> Usagers</router-link></li>
                 <li><router-link to="/mon-profil"><i class="fas fa-user"></i> Mon profil</router-link></li>
             </ul>
         </div>

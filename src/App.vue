@@ -37,7 +37,7 @@
       </div>
     </div>
     <footer>
-      © Copyright <span>Gift Selector</span>
+      © Copyright 2022 <span>Gift Selector</span>
     </footer>
   </div>
 </template>

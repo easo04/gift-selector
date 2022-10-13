@@ -78,7 +78,7 @@ export default {
     .mon-profil h3{
         text-align: left;
         margin-bottom: 10px;
-        font-family: 'Yatra One', cursive;
+        font-family: 'Ubuntu', sans-serif;
     }
 
     .mon-profil{

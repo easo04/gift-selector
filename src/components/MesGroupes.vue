@@ -8,7 +8,7 @@
                     <img v-else class="logo-header" src="../assets/groupe-type-default.svg">
                 </div>
                 <div class="details-groupe">
-                    <span>{{groupe.nom}}</span><br>
+                    <span class="name">{{groupe.nom}}</span><br>
                     <span class="argent"><span v-if="groupe.maximum">Max {{groupe.maximum}}$</span>
                     <span v-if="groupe.minimum"> Min {{groupe.minimum}}$</span></span>
                 </div>
@@ -54,6 +54,11 @@ export default {
     border-radius: 5px;
     margin-bottom: 20px;
     position: relative;
+}
+.item-groupe .details-groupe .name{
+    font-family: 'Oooh Baby', cursive;
+    font-weight: 700;
+    font-size: 1.2em;
 }
 .item-groupe:hover{
     background: #c8c640;
