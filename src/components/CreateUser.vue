@@ -1,8 +1,5 @@
 <template>
     <div class="create-user-page">
-        <div class="image">
-            <img src="../assets/gift.svg">
-        </div>
         <div class="content">
             <div>
                 <h2>Créer votre compte</h2>
@@ -131,33 +128,37 @@
 <style scoped>
     .create-user-page{
         min-height: 100vh;
-        display: flex;   
-        font-family: 'Ubuntu', sans-serif;
-        background: #fdfdfd;
-        flex-wrap: wrap;
-    }
-    .create-user-page>div{
-        width: 50%;
-    }
-    .create-user-page .image{
-        background: #e1f3fe;
         display: flex;
-        justify-content: center;
+        color: hsl(210, 29%, 24%);
+        font-family: 'Ubuntu', sans-serif;
         align-items: center;
+        justify-content: center;
+        padding: 20px 350px;
+
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: top;
+        background-image: url(https://images8.alphacoders.com/889/889089.jpg);
+        width: 100%;
+        height: 100%;
+        letter-spacing: 0.02em;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
     }
     .create-user-page .image img{
         width: 70%;
         height: auto;
     }
     .create-user-page .content{
-        padding: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        border: 2px solid #69c2fa;
+        border-radius: 50px;
+        padding: 50px 50px;
+        background: #ffde8ff2;
     }
     @media screen and (max-width: 769px){
-        .create-user-page .image{
-            display: none;
+        .create-user-page{
+            padding:20px;
         }
         .create-user-page>div{
             width: 100%;

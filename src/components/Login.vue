@@ -2,7 +2,7 @@
     <div class="login-page">
         <div class="content">
             <div>
-                <h1>Gift Selector</h1>
+                <h1><span class="gift">Gift</span> Selector</h1>
                 <h6>Bienvenue à Gift Selector!</h6>
                 <div class="error" v-if="error">
                     * {{error}}
@@ -68,31 +68,42 @@
         font-family: 'Ubuntu', sans-serif;
         align-items: center;
         justify-content: center;
+        padding: 0 20px;
+
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: top;
+        background-image: url(https://images8.alphacoders.com/889/889089.jpg);
+        width: 100%;
+        height: 100%;
+        letter-spacing: 0.02em;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
     }
     .login-page h1{
         font-weight: 600;
         font-family: 'Pacifico', cursive; 
         margin-bottom: 50px;
     }
+
     .login-page h6{
         text-align: left;
     }
-    .login-page .image{
-        background: #e1f3fe;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .login-page .image img{
-        width: 70%;
-        height: auto;
+
+    .login-page .content{
+        border: 2px solid #69c2fa;
+        border-radius: 50px;
+        padding: 100px;
+        background: #ffde8ff2;
     }
     @media screen and (max-width: 769px){
-        .login-page .image{
-            display: none;
-        }
+        
         .login-page >div{
             width: 100%;
+        }
+        .login-page .content{
+            padding: 50px;
         }
     }
     .form-login{

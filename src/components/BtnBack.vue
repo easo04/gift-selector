@@ -22,4 +22,7 @@ export default {
         font-weight: 600;
         margin-bottom: 30px;
     }
+    .btn-back a{
+        cursor: pointer;
+    }
 </style>

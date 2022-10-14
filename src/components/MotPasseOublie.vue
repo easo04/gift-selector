@@ -1,8 +1,5 @@
 <template>
     <div class="mdp-oublie-page">
-        <div class="image">
-            <img src="../assets/gift.svg">
-        </div>
         <div class="content">
             <div v-if="!emailSended">
                 <h2>Mot de passe oublié</h2>
@@ -26,8 +23,9 @@
 </template>
 <script>
     import firebase from 'firebase'
-    import {db} from '@/main';
+    import BtnBack from './BtnBack.vue';
     export default {
+        components: { BtnBack },
         data() {
             return {
                 email:undefined,
@@ -57,30 +55,32 @@
 </script>
 <style scoped>
     .mdp-oublie-page{
+
         min-height: 100vh;
-        display: flex;   
+        display: flex;
+        color: hsl(210, 29%, 24%);
         font-family: 'Ubuntu', sans-serif;
-        background: #fdfdfd;
-        flex-wrap: wrap;
-    }
-    .mdp-oublie-page>div{
-        width: 50%;
-    }
-    .mdp-oublie-page .image{
-        background: #e1f3fe;
-        display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
+        padding: 0 350px;
+
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: top;
+        background-image: url(https://images8.alphacoders.com/889/889089.jpg);
+        width: 100%;
+        height: 100%;
+        letter-spacing: 0.02em;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
     }
-    .mdp-oublie-page .image img{
-        width: 70%;
-        height: auto;
-    }
+
     .mdp-oublie-page .content{
+        border: 2px solid #69c2fa;
+        border-radius: 50px;
         padding: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        background: #ffde8ff2;
     }
 
     .mdp-oublie-page .content h6{
@@ -89,9 +89,10 @@
         color:#666666;
     }
     @media screen and (max-width: 769px){
-        .mdp-oublie-page .image{
-            display: none;
+        .mdp-oublie-page{
+            padding: 0 20px;
         }
+        
         .mdp-oublie-page>div{
             width: 100%;
         }

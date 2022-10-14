@@ -1,12 +1,12 @@
 <template>
     <div class="copy-input-group">
-        <input type="text" class="form-control" id="url" v-model="url" autocomplete="off" disabled>
+        <input type="text" class="form-control" id="url" v-model="text" autocomplete="off" disabled>
         <button class="btn-copy" @click="copyUrl()"><i class="fas fa-copy"></i></button>
     </div>
 </template>
 <script>
 export default {
-    props:['groupe'],
+    props:['groupe', 'text'],
     data(){
         return{
             url:'http://localhost:8080/#/create-user?groupe=' + this.groupe.id

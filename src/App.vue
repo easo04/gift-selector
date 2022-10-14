@@ -8,7 +8,7 @@
           <div v-else>
             <a href="/"><img class="logo-header" src="./assets/logo.svg"></a>
           </div>
-          <span class="title">Gift Selector</span>
+          <span class="title"><span class="gift">Gift</span> Selector</span>
         </div>
         <div class="header-actions">
           <div v-if="isAuth" class="menu-desktop">
@@ -174,6 +174,8 @@ header a:hover{
   font-size: 18px;
   font-family: 'Pacifico', cursive;
 }
+
+
 .header-actions{
   float: right;
   display: flex;

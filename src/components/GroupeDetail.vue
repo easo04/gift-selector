@@ -12,7 +12,7 @@
         <h6>Type: {{type}}</h6>
         <div>
             <h6>Url d'invitation: </h6>
-            <copy-text-input :groupe="groupe"/>
+            <copy-text-input :text="'http://localhost:8080/#/create-user?groupe=' + groupe.id"/>
         </div>
         <div class="lstUsers">
             <h6>Usagers: </h6>

@@ -28,7 +28,8 @@
                             <div class="nom-cadeau">
                                 <div>
                                     <h4>{{cadeau.nom}}</h4>
-                                    <h6 v-if="cadeau.codeRabais">Code de rabais: {{cadeau.codeRabais}}</h6>
+                                    <h6 v-if="cadeau.codeRabais">Code de rabais:</h6>
+                                    <copy-text-input :text="cadeau.codeRabais" v-if="cadeau.codeRabais"/>
                                     <a :href="cadeau.link" target="_blank" v-if="cadeau.link">Lien de l'article</a>
                                 </div>
                             </div>
@@ -99,8 +100,9 @@
 <script>
 import {db} from '@/main';
 import BtnBack from './BtnBack.vue';
+import CopyTextInput from './CopyTextInput.vue';
 export default {
-    components: { BtnBack },
+    components: { BtnBack, CopyTextInput },
     props:['groupe', 'user'],
     data(){
         return{
@@ -325,6 +327,7 @@ export default {
         font-weight: 600;
         display : grid;
         grid-template-columns: 2fr 1fr;
+        grid-column-gap: 5px;
         padding: 10px;
         border-radius: 5px;
         background: #e7edfc;

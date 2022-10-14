@@ -51,7 +51,7 @@ export default {
     font-size: 20px;
     font-weight: 700;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-bottom: 20px;
     position: relative;
 }
